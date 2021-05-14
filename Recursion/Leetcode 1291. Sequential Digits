@@ -36,3 +36,33 @@ public:
         return v;
     }
 };
+
+Solution 2 (Using Recursion)
+
+class Solution {
+public:
+    vector<int> result;
+
+    void recursionFunc(int &low, int &high, int curr){
+        
+        if(curr >= low && curr <= high){
+            result.push_back(curr);
+        }
+        
+        if(curr > high) return;
+        
+        if((curr % 10) < 9){
+        recursionFunc(low, high, curr*10 + (curr % 10) + 1);
+        }
+    }
+    
+    vector<int> sequentialDigits(int low, int high) {
+       
+        for(int i = 1; i <= 9; i++){
+            recursionFunc(low, high, i);
+        }
+        sort(result.begin(), result.end());
+        return result;
+        
+    }
+};
