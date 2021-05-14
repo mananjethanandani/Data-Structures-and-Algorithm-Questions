@@ -1,0 +1,39 @@
+Problem URL: https://leetcode.com/problems/combination-sum/
+Leetcode 39. Combination Sum
+
+Solution: 
+class Solution {
+public:
+    vector<vector<int>> result;
+    
+    void allCombinationSum(vector<int> &candidates, int &target, int sum, int i, vector<int> &tmp){
+        
+        if(sum == 0){
+            result.push_back(tmp);
+            return;
+        }
+        
+        if(sum < 0) return;
+        
+        if(i == candidates.size()) return;
+        
+        
+        tmp.push_back(candidates[i]);
+        allCombinationSum(candidates, target, sum - candidates[i], i, tmp);
+        tmp.pop_back();
+        
+        allCombinationSum(candidates, target, sum, i + 1, tmp);
+        
+    }
+    
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        
+        vector<int> tmp;
+        
+        int sum = target;
+        
+        allCombinationSum(candidates, target, sum, 0, tmp);
+        return result;
+        
+    }
+};
