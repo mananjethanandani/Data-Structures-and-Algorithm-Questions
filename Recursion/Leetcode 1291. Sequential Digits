@@ -1,0 +1,38 @@
+Problem URL:https://leetcode.com/problems/sequential-digits/
+Leetcode 1291. Sequential Digits
+
+Solution 1: (Using Iteration)
+
+class Solution {
+public:
+    vector<int> sequentialDigits(int low, int high) {
+        
+        int ldigit = 0, hdigit = 0;
+        int llow = low, hhigh = high;
+        while(llow > 0){
+            llow /= 10;
+            ldigit++;
+        }
+        
+        while(hhigh > 0){
+            hhigh /= 10;
+            hdigit++;
+        }
+     
+        vector<int> v;
+
+        for(int i = ldigit; i <= hdigit; i++){
+            for(int j = 1; j <= 10 - i; j++){
+                int n = 0;
+                for(int k = 0; k < i; k++){
+                    n = n * 10 + (j + k);
+                }
+                if(n >= low && n <= high){
+                    v.push_back(n);
+                }
+            }
+        }
+        
+        return v;
+    }
+};
