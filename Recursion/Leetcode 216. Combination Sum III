@@ -1,0 +1,49 @@
+Problem URL: https://leetcode.com/problems/combination-sum-iii/
+Leetcode 216. Combination Sum III
+
+Solution: (Using Recursion and Backtracking)
+
+class Solution {
+public:
+    
+    vector<vector<int>> answer;
+    
+    int min(int a, int b){
+        if(a < b) return a;
+        else return b;
+    }
+    
+    void helper(int &k, int &n, int sum, int i,vector<int> &tmp, vector<int> &numbers){
+        
+        if(sum == 0 && tmp.size() == k){
+            answer.push_back(tmp);
+            return;
+        }
+        
+        if(sum < 0) return;
+        
+        if(i == numbers.size()) return;
+        
+        tmp.push_back(numbers[i]);
+        helper(k, n, sum - numbers[i], i + 1, tmp, numbers);
+        tmp.pop_back();
+        
+        helper(k, n, sum, i + 1, tmp, numbers);
+        
+    }
+    
+    vector<vector<int>> combinationSum3(int k, int n) {
+        
+        vector<int> tmp;
+        vector<int> numbers;
+        int sum = n;
+        for(int i = 1; i <= min(n,9); i++){
+            numbers.push_back(i);
+        }
+        
+        helper(k, n, sum, 0, tmp, numbers);
+        
+        return answer;
+        
+    }
+};
