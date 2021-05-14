@@ -1,0 +1,38 @@
+Problem URL: https://leetcode.com/problems/combinations/
+Leetcode 39. Combination Sum
+
+Solution (Using Recursion and Backtracking)
+
+class Solution {
+public:
+    
+    vector<vector<int>> result;
+    
+    void allSS(int &n, int &k, int start, vector<int> &tmp, int cnt){
+        
+        if(cnt == k){
+            result.push_back(tmp);
+            return;
+        }
+        
+        for(int i = start; i <= n; i++){
+            tmp.push_back(i);
+            allSS(n, k, i + 1, tmp, cnt + 1);
+            tmp.pop_back();
+        }
+        
+    }
+    
+    vector<vector<int>> combine(int n, int k) {
+    
+    
+        vector<int> tmp;
+        int start = 1;
+        int cnt = 0;
+        
+        allSS(n, k, start, tmp, cnt);
+        
+        return result;
+        
+    }
+};
