@@ -1,0 +1,38 @@
+Problem URL: https://leetcode.com/problems/permutations-ii/
+Leetcode 47. Permutations II
+
+Solution 1 (Using Backtracking with Sets)
+
+class Solution {
+public:
+    vector<vector<int>> result;
+    set<vector<int>>pq;
+   
+    void numsCollection(vector<int> &nums, int i){
+        
+     if(i == nums.size()){
+         pq.insert(nums);
+         return;
+     }
+    
+     
+     for(int j = i; j < nums.size(); j++){
+        
+            swap(nums[i], nums[j]);
+            numsCollection(nums, i + 1);
+            swap(nums[i], nums[j]);
+     }
+    }     
+    
+    vector<vector<int>> permuteUnique(vector<int>& nums) {
+        
+        numsCollection(nums, 0);
+        for(auto k : pq)
+        {
+            result.push_back(k);
+        }
+
+        return result;
+    }
+    
+};
