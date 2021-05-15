@@ -1,0 +1,74 @@
+Problem URL: https://leetcode.com/problems/permutations/
+Leetcode 46. Permutations
+
+Solution 1 (Using Backtracking but lexographical order not maintained)
+
+class Solution {
+public:
+    vector<vector<int>> result;
+
+    void allPossiblePermutation(vector<int> &nums, int i){
+        
+        if(i == nums.size()){
+            result.push_back(nums);
+            return;
+        }
+        
+        for(int j = i; j < nums.size(); j++){
+            swap(nums[i], nums[j]);
+            allPossiblePermutation(nums, i + 1);
+            swap(nums[i], nums[j]);
+        }
+    }
+    
+    vector<vector<int>> permute(vector<int>& nums) {
+        
+        allPossiblePermutation(nums, 0);
+        return result;
+    }
+};
+
+Solution 2 (Using backtracking and lexographical order maintained)
+
+class Solution {
+public:
+    vector<vector<int>> result;
+    
+    void rightRotation(vector<int> &nums, int i, int j){
+        int temp = nums[j];
+        
+        for(int k = j; k > i; k--){
+            nums[k] = nums[k - 1];
+        }
+        nums[i] = temp;
+    }
+
+    void leftRotation(vector<int> &nums, int i, int j){
+        
+        int temp = nums[i];
+        for(int k = i; k < j; k++){
+            nums[k] = nums[k + 1];
+        }
+        nums[j] = temp;
+    }
+
+    void allPossiblePermutation(vector<int> &nums, int i){
+        
+        if(i == nums.size()){
+            result.push_back(nums);
+            return;
+        }
+        
+        for(int j = i; j < nums.size(); j++){
+            rightRotation(nums, i, j);
+            allPossiblePermutation(nums, i + 1);
+            leftRotation(nums, i, j);
+        }
+    }
+    
+    vector<vector<int>> permute(vector<int>& nums) {
+        
+        allPossiblePermutation(nums, 0);
+        return result;
+    }
+};
