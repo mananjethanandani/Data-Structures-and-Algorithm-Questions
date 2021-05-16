@@ -1,0 +1,41 @@
+Problem URL: https://leetcode.com/problems/palindrome-partitioning/
+Leetcode 131. Palindrome Partitioning
+
+Solution (Using Backtracking):
+
+class Solution {
+public:
+    
+    vector<vector<string>> result;
+    
+    bool isPalindrome(string &s, int start, int end){
+        while(start < end){
+            if(s[start++] != s[end--]) return false;
+        }
+        return true;
+    }
+    
+    void func(string &s, int index, vector<string> &tmp){
+              
+            if(index == s.length()){
+                result.push_back(tmp);
+                return;
+            }
+       
+         for(int i = index; i < s.length(); i++){
+            
+            if(isPalindrome(s, index, i)){
+                tmp.push_back(s.substr(index, i - index + 1));
+                func(s, i + 1, tmp);
+                tmp.pop_back();
+            }   
+        }
+    }
+    
+    vector<vector<string>> partition(string s) {
+    
+        vector<string> tmp;
+        func(s, 0, tmp);
+        return result;
+    }
+};
