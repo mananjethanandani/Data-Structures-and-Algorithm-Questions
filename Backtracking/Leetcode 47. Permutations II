@@ -36,3 +36,43 @@ public:
     }
     
 };
+
+Solution II (More efficient solution as no use of Set)
+
+class Solution {
+public:
+    vector<vector<int>> result;
+   
+    void numsCollection(vector<int> &nums, int i){
+        
+     if(i == nums.size()){
+         result.push_back(nums);
+         return;
+     }
+    
+     int positivefreq[11] = {0};
+     int negativefreq[11] = {0};
+        
+     for(int j = i; j < nums.size(); j++){
+        
+        if((nums[j] >= 0 && positivefreq[nums[j]] == 0) || (nums[j] < 0 && negativefreq[-1 * nums[j]] == 0)){
+        swap(nums[i], nums[j]);
+        numsCollection(nums, i + 1);
+        swap(nums[i], nums[j]);    
+        }
+     if(nums[j] >= 0){
+        positivefreq[nums[j]]++;
+         }
+        else{
+        negativefreq[-1 * nums[j]]++;
+        }
+    }
+  }
+    
+    vector<vector<int>> permuteUnique(vector<int>& nums) {
+        
+        numsCollection(nums, 0);
+        return result;
+    }
+    
+};
