@@ -1,0 +1,90 @@
+Problem URL: https://leetcode.com/problems/word-search/
+Leetcode 79. Word Search
+
+Solution: 
+#include<cstring>
+class Solution {
+public:
+    bool result = false;
+    int isVisited[7][7] = {0};
+    
+    bool isSafe(vector<vector<char>>& board, int i, int j){
+        
+        int m = board.size();
+        int n = board[0].size();
+        
+        if(i >= m || j >= n || i < 0 || j < 0){
+            return false;
+        }
+        return true;
+    }
+    
+    bool findWord(vector<vector<char>>& board, int i, int j, string &word, int len, string tmp, int size){
+         
+        isVisited[i][j] = 1;
+
+        tmp.push_back(board[i][j]);
+
+        if(word == tmp){  
+                isVisited[i][j] = 0;
+                 return true;
+            }    
+          
+        if(tmp.length() >= len) {
+            isVisited[i][j] = 0;
+            return false;
+        }
+        if(isSafe(board, i, j + 1) && !isVisited[i][j + 1] && word[size] == board[i][j + 1]){
+          if(findWord(board, i, j + 1, word, len, tmp, size + 1)) {
+               isVisited[i][j] = 0;
+              return true;}
+
+        }
+         
+        if(isSafe(board, i + 1, j) && !isVisited[i + 1][j] && word[size] == board[i + 1][j]){
+          if(findWord(board, i + 1, j, word, len, tmp, size + 1)){
+               isVisited[i][j] = 0;
+              return true;}
+          
+        }
+        
+         if(isSafe(board, i, j - 1) && !isVisited[i][j - 1] && word[size] == board[i][j - 1]){
+          if(findWord(board, i, j - 1, word, len, tmp, size + 1)){
+               isVisited[i][j] = 0;
+              return true;}
+        }
+        
+         if(isSafe(board, i - 1, j) && !isVisited[i - 1][j] && word[size] == board[i-1][j]){
+          if(findWord(board, i - 1, j, word, len, tmp, size + 1)){
+               isVisited[i][j] = 0;
+              return true;}
+        
+        }
+      
+        isVisited[i][j] = 0;
+        return false;   
+    }
+    
+    bool exist(vector<vector<char>>& board, string word) {
+        
+        
+        int len = word.length();
+        
+        
+        int m = board.size();
+        int n = board[0].size();
+
+        string tmp;
+        
+        for(int i = 0; i < m; i++){
+            for(int j = 0; j < n; j++){
+                if(board[i][j] == word[0])
+                    if(findWord(board, i, j, word, len, tmp, 1)){
+                        return true;
+                    }
+            }
+        }
+        
+        return false;
+    }
+};
