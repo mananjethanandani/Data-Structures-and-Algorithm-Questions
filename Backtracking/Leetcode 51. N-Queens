@@ -1,0 +1,64 @@
+ Problem URL: https://leetcode.com/problems/n-queens/
+ Leetcode 51. N-Queens
+ 
+ Solution (Using Backtracking)
+ 
+ class Solution {
+public:
+    
+    vector<vector<string>> result;
+    
+    bool isSafe(int r, int c, vector<string> &board){
+        
+        for(int k = 0; k <= r; k++){
+            if(board[k][c] == 'Q'){
+                return false;
+            }
+        }
+        
+        int x = r - 1, y = c - 1;
+        
+        while(x >= 0 && y >= 0){
+            if(board[x][y] == 'Q'){
+                return false;
+            }
+            x--;
+            y--;
+        }
+        
+        x = r - 1; y = c + 1;
+        
+        while(x >= 0 && y < board[0].size()){
+            if(board[x][y] == 'Q'){
+                return false;
+            }
+            x--;
+            y++;
+        }
+     return true;
+    }
+    void funcPlaceQueen(int r, vector<string> &board){
+        
+        if(r == board[0].size()){
+            result.push_back(board);
+            return;
+        }
+        
+        for(int c = 0; c < board[0].size(); c++){
+            if(isSafe(r, c, board)){
+                board[r][c] = 'Q';
+                funcPlaceQueen(r + 1, board);
+                board[r][c] = '.';
+            }
+        }
+        
+    }
+    
+    vector<vector<string>> solveNQueens(int n) {
+        
+        vector<string> board(n,string(n,'.'));
+       
+        funcPlaceQueen(0, board);
+        return result;   
+    }
+};
