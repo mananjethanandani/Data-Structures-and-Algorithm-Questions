@@ -1,0 +1,72 @@
+Problem URL: https://leetcode.com/problems/sudoku-solver/
+Leetcode 37. Sudoku Solver
+
+Solution: (Using Backtracking)
+
+class Solution {
+public:
+    
+    bool isValid(vector<vector<char>>& board, int row, int col, char k)
+    {
+        
+        for(int l = 0; l < 9; l++){
+            if(board[row][l] == k) return false;
+        }
+        
+        for(int l = 0; l < 9; l++){
+            if(board[l][col] == k) return false;
+        }
+        
+        int smi = 3* (row/3); int smj = 3 * (col/3);
+        
+        for(int i = 0; i < 3; i++){
+            for(int j = 0; j < 3; j++){
+                if(board[smi + i][smj + j] == k) return false;
+            }
+        }
+        
+        return true;
+    }
+
+    
+    bool SS(vector<vector<char>>& board, int i, int j){
+            
+        if(i == 9){
+            return true;
+        }
+        
+        if(board[i][j] != '.'){
+            if(j < 8){
+                return SS(board, i, j + 1);
+            }
+            else{
+                return SS(board, i + 1, 0);
+            }
+        }
+        else
+        {
+        for(char k = '1'; k <= '9'; k++){
+            if(isValid(board, i, j, k)){
+                board[i][j] = k;
+              
+                if(j < 8){
+                     if(SS(board, i, j + 1)) return true;
+                }
+                else{
+                     if(SS(board, i + 1, 0)) return true;;
+                }
+                
+                board[i][j] = '.';
+            }
+        }  
+       
+        }
+    return false;
+    }
+    
+    void solveSudoku(vector<vector<char>>& board) {
+        
+        SS(board, 0, 0);
+        
+    }
+};
